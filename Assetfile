@@ -1,0 +1,21 @@
+require "rake-pipeline-web-filters"
+
+output 'build'
+
+# Preprocesses haml using tilt
+input 'source' do
+  match '*.html*.haml' do
+    tilt { |input| input.sub '.haml', '' }
+  end
+  copy
+end
+
+# Copy relevant reveal.js files
+input 'reveal.js/' do
+  match 'js/reveal.min.js' do copy end
+  match 'lib/**/*.{js,css}' do copy end
+  match 'plugin/**/*' do copy end
+  match 'css/**/*.css' do copy end
+end
+
+# vim:ft=ruby
